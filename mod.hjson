@@ -1,0 +1,14 @@
+displayName: "Forgotten Depths"
+name: "fd"
+author: "R.O.T"
+main: "ForgotDepths.FDMain"
+description:  "Mod themed around game: Corebound by Overcurve
+
+Originally supposed to be an april fools version of Buried In Ice but i fucked up with deadlines
+
+
+WARNING: Mod is not going to explain its own mechanics directly so... READ THE DAMN DESCRIPTIONS OF BLOCKS please...
+"
+version: 0.1A
+minGameVersion: 160
+java: true
