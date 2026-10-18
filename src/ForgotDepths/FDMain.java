@@ -9,6 +9,7 @@ import arc.graphics.Texture;
 import arc.math.Mathf;
 import arc.util.Log;
 import arc.util.Reflect;
+import arc.util.Time;
 import mindustry.Vars;
 import mindustry.game.EventType;
 import mindustry.game.Team;
@@ -19,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import static ForgotDepths.content.FDPlanets.end;
 import static arc.Core.bundle;
-import static mindustry.Vars.mods;
+import static mindustry.Vars.*;
 
 public class FDMain extends Mod{
     public static final String modName = "fd";
@@ -36,12 +37,11 @@ public class FDMain extends Mod{
         });
         Events.on(EventType.SectorCaptureEvent.class, e -> {
             if(e.sector.preset == null || e.sector.planet != end) return;
-            AtomicBoolean finishedAll = new AtomicBoolean(true);
-            boolean isCaptured = FDSectors.dreadousTrench.sector.isCaptured();
-            if(!isCaptured) finishedAll.set(false);
-            if(finishedAll.get()) {
-                if (FDVars.demo) demoDialog.show(end);
-            };
+            if(!net.client() && e.sector.preset != null && e.sector.preset == FDSectors.dreadousTrench && e.initialCapture){
+                Time.run(60f * 2f, () -> {
+                    if (FDVars.demo) demoDialog.show(end);
+                });
+            }
         });
     }
     @Override
