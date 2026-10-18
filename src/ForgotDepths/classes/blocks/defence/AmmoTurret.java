@@ -1,10 +1,12 @@
 package ForgotDepths.classes.blocks.defence;
 
+import ForgotDepths.classes.FDStats;
 import ForgotDepths.content.FDFX;
 import arc.Core;
 import arc.graphics.g2d.TextureRegion;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
+import mindustry.Vars;
 import mindustry.entities.bullet.BulletType;
 import mindustry.game.Team;
 import mindustry.graphics.Drawf;
@@ -35,8 +37,8 @@ public class AmmoTurret extends Turret {
     public void setStats() {
         super.setStats();
         if (maxAmmo >=1 ) {
-            stats.add(Stat.ammoCapacity, maxAmmo);
-            stats.add(Stat.productionTime, reloadTime / 60f, StatUnit.seconds);
+            stats.add(FDStats.ammoCap, maxAmmo);
+            stats.add(FDStats.ammoReload, reloadTime / 60f, StatUnit.seconds);
         }
     }
     @Override
@@ -77,7 +79,7 @@ public class AmmoTurret extends Turret {
     public void drawPlace(int x, int y, int rotation, boolean valid){
         super.drawPlace(x, y, rotation, valid);
         Drawf.dashCircle(x * tilesize + offset, y * tilesize + offset, noBuildRange, Pal.remove);
-        if(!canPlaceOn(world.tile(x, y), player.team(), rotation)  ){
+        if(!canPlaceOn(world.tile(x, y), player.team(), rotation)){
             drawPlaceText(Core.bundle.get("message.nobuild"), x, y, valid);
         }
     }
@@ -90,7 +92,8 @@ public class AmmoTurret extends Turret {
         }
         @Override
         public void updateTile(){
-            if (maxAmmo >= 1) {
+            if (maxAmmo > 0) {
+                if (state.rules.infiniteResources) curAmmo = maxAmmo;
                 if (curAmmo <= 0 && active) {
                     active = false;
                     timer = reloadTime;

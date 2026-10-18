@@ -114,7 +114,7 @@ public class FDUnits {
         armedBox = new ScrapUnitType("armed-box"){{
             aiController = SuicideAI::new;
 
-            speed = 1f;
+            speed = 0.01f;
             hitSize = 12f;
             health = 85;
             constructor = MechUnit::create;
@@ -123,7 +123,8 @@ public class FDUnits {
             squareShape = true;
             range = 40f;
             mechSideSway = 0;
-
+            mechFrontSway = 0;
+            abilities.add(new ConstantStatusAbility(jump, 7.5f, 7.5f * 3));
 
             weapons.add(new Weapon(){{
                 shootOnDeath = true;
@@ -316,7 +317,7 @@ public class FDUnits {
             rotateSpeed = 1.4f;
             targetAir = false;
             faceTarget = false;
-            health = 2000;
+            health = 1200;
             constructor = LegsUnit::create;
 
             stepSound = Sounds.walkerStep;
@@ -340,7 +341,7 @@ public class FDUnits {
                 rotate = true;
                 mirror = false;
                 shootY = 73f / 4;
-                reload = 28f;
+                reload = 32f;
                 ejectEffect = Fx.none;
                 recoil = 2f;
                 rotateSpeed = 0.95f;

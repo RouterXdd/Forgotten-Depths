@@ -36,7 +36,9 @@ public class FDTechTree {
 
             });
             node(trueScrapWall, () -> {
+                node(largeTrueScrapWall, () -> {
 
+                });
             });
             node(turret, Seq.with(new OnSector(resurrection)), () -> {
                 node(ranger, () -> {

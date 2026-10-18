@@ -58,7 +58,7 @@ public class FDBlocks {
         //storage
         scrapCore,
         //defence
-        trueScrapWall,
+        trueScrapWall, largeTrueScrapWall,
         turret, ranger
             ;
     public static void load() {
@@ -370,6 +370,13 @@ public class FDBlocks {
             buildCostMultiplier = 2.25f;
             flashHit = true;
         }};
+        largeTrueScrapWall = new Wall("large-true-scrap-wall"){{
+            requirements(Category.defense, with(scrapPlate, 24));
+            health = 1200;
+            buildCostMultiplier = 2.25f;
+            size = 2;
+            flashHit = true;
+        }};
 
         //defence turrets
         turret = new PowerAmmoTurret("turret"){{
@@ -392,7 +399,26 @@ public class FDBlocks {
             shootCone = 40f;
             rotateSpeed = 6.5f;
             range = 110f;
-            shootEffect = Fx.lightningShoot;
+            shootEffect = new MultiEffect(new ParticleEffect(){{
+                length = 0;
+                lifetime = 12;
+                region = "fd-blur-circle";
+                particles = 1;
+                sizeFrom = 0;
+                sizeTo = 10;
+                colorFrom = FDPal.playerColor;
+                colorTo = Color.valueOf("0000ff00");
+            }},new ParticleEffect(){{
+                length = 24;
+                cone = 25;
+                lifetime = 20;
+                particles = 5;
+                region = "fd-blur-particle";
+                sizeFrom = sizeTo = 3f;
+                colorFrom = FDPal.playerColor;
+                colorTo = Color.valueOf("0000ff00");
+            }});
+            smokeEffect = Fx.none;
             heatColor = Color.red;
             recoil = 1f;
             size = 2;
@@ -422,7 +448,7 @@ public class FDBlocks {
             shootCone = 15f;
             rotateSpeed = 5f;
             range = 240f;
-            shootEffect = new MultiEffect(Fx.lancerLaserShoot, new ParticleEffect(){{
+            shootEffect = new MultiEffect(new ParticleEffect(){{
                 length = 0;
                 lifetime = 12;
                 region = "fd-blur-circle";
@@ -432,7 +458,26 @@ public class FDBlocks {
                 sizeTo = 12;
                 colorFrom = FDPal.playerColor;
                 colorTo = Color.valueOf("0000ff00");
+            }},new ParticleEffect(){{
+                length = 32;
+                cone = 40;
+                lifetime = 25;
+                particles = 8;
+                region = "fd-blur-particle";
+                sizeFrom = sizeTo = 4f;
+                colorFrom = FDPal.playerColor;
+                colorTo = Color.valueOf("0000ff00");
+            }},new ParticleEffect(){{
+                length = 0;
+                lifetime = 12;
+                region = "fd-blur-spike-circle";
+                particles = 1;
+                sizeFrom = 0;
+                sizeTo = 15;
+                colorFrom = FDPal.playerColor;
+                colorTo = Color.valueOf("0000ff00");
             }});
+            smokeEffect = Fx.none;
             shootY = 12;
             heatColor = Color.red;
             recoil = 1f;

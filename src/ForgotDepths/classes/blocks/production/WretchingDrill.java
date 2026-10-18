@@ -1,7 +1,9 @@
 package ForgotDepths.classes.blocks.production;
 
 import ForgotDepths.classes.campain.DisabledUnit;
+import arc.Core;
 import arc.math.Mathf;
+import arc.util.Strings;
 import arc.util.io.Reads;
 import arc.util.io.Writes;
 import mindustry.Vars;
@@ -31,7 +33,7 @@ public class WretchingDrill extends Drill {
     @Override
     public void setBars(){
         super.setBars();
-        addBar("activation", (WretchingDrillBuild e) -> new Bar("bar.progress", Pal.accent, e::time));
+        addBar("activation", (WretchingDrillBuild e) -> new Bar(() -> Core.bundle.format("bar.progress", Strings.fixed((e.time / e.wretch) * 100, 0)),() -> Pal.accent, e::time));
     }
     public class WretchingDrillBuild extends DrillBuild {
         float time, wretch = 1;
