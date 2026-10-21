@@ -89,7 +89,7 @@ public class FDUnits {
                                 despawnEffect = hitEffect = new ParticleEffect(){{
                                     length = 25;
                                     cone = 25;
-                                    lifetime = 28;
+                                    lifetime = 19;
                                     particles = 3;
                                     region = "fd-blur-particle";
                                     sizeFrom = sizeTo = 3.5f;
@@ -114,7 +114,7 @@ public class FDUnits {
         armedBox = new ScrapUnitType("armed-box"){{
             aiController = SuicideAI::new;
 
-            speed = 0.01f;
+            speed = 0.02f;
             hitSize = 12f;
             health = 85;
             constructor = MechUnit::create;
@@ -124,7 +124,7 @@ public class FDUnits {
             range = 40f;
             mechSideSway = 0;
             mechFrontSway = 0;
-            abilities.add(new ConstantStatusAbility(jump, 7.5f, 7.5f * 3));
+            abilities.add(new ConstantStatusAbility(jump, 3.75f, 3.75f * 3));
 
             weapons.add(new Weapon(){{
                 shootOnDeath = true;
@@ -147,44 +147,52 @@ public class FDUnits {
                     splashDamageRadius = 30f;
                     instantDisappear = true;
                     splashDamage = 80f;
-                    buildingDamageMultiplier = 0.68f;
+                    buildingDamageMultiplier = 0.5f;
                     hittable = false;
                     collidesAir = true;
 
                     smokeEffect = despawnEffect = Fx.none;
                     shootEffect = new MultiEffect(
-                            new WaveEffect(){{
-                                sizeFrom = sizeTo = splashDamageRadius;
-                                strokeFrom = 2.5f;
-                                strokeTo = 0;
-                                colorFrom = colorTo = FDPal.infectedColor;
+                            new ParticleEffect(){{
+                                length = 0;
                                 lifetime = 95;
+                                region = "fd-blur-circle";
+                                particles = 1;
+                                sizeFrom = sizeTo = splashDamageRadius;
+                                colorFrom = FDPal.infectedColor;
+                                colorTo = Color.valueOf("ff000000");
                             }},
-                            new WaveEffect() {{
+                            new ParticleEffect(){{
+                                length = 0;
+                                lifetime = 35;
+                                region = "fd-blur-spike-circle";
+                                particles = 1;
                                 sizeFrom = 0;
                                 sizeTo = splashDamageRadius;
-                                strokeFrom = 2.5f;
-                                strokeTo = 0;
-                                colorFrom = colorTo = FDPal.infectedColor;
-                                lifetime = 35;
+                                colorFrom = FDPal.infectedColor;
+                                colorTo = Color.valueOf("ff000000");
                             }},
-                            new WaveEffect() {{
+                            new ParticleEffect(){{
+                                length = 0;
+                                lifetime = 35;
+                                region = "fd-blur-spike-circle";
+                                particles = 1;
                                 sizeFrom = 0;
                                 sizeTo = splashDamageRadius;
-                                strokeFrom = 2.5f;
-                                strokeTo = 0;
-                                colorFrom = colorTo = FDPal.infectedColor;
-                                lifetime = 35;
+                                colorFrom = FDPal.infectedColor;
+                                colorTo = Color.valueOf("ff000000");
                                 startDelay = 32.5f;
                             }},
-                            new WaveEffect() {{
+                            new ParticleEffect(){{
+                                length = 0;
+                                lifetime = 35;
+                                region = "fd-blur-spike-circle";
+                                particles = 1;
                                 sizeFrom = 0;
                                 sizeTo = splashDamageRadius;
-                                strokeFrom = 2.5f;
-                                strokeTo = 0;
-                                colorFrom = colorTo = FDPal.infectedColor;
-                                lifetime = 35;
-                                startDelay = 65f;
+                                colorFrom = FDPal.infectedColor;
+                                colorTo = Color.valueOf("ff000000");
+                                startDelay = 32.5f * 2;
                             }}
 
                     );
@@ -200,7 +208,7 @@ public class FDUnits {
             }
         };
         springling = new ScrapUnitType("springling"){{
-            speed = 0.008f;
+            speed = 0.012f;
             rotateSpeed = 0.075f;
             drag = 0.24f;
             hitSize = 8f;
@@ -210,7 +218,7 @@ public class FDUnits {
             mechStepParticles = false;
             faceTarget = false;
             squareShape = true;
-            abilities.add(new ConstantStatusAbility(jump, 8, 20));
+            abilities.add(new ConstantStatusAbility(jump, 5, 14));
 
             weapons.add(new Weapon(modName + "-springling-weapon"){{
                 targetUnderBlocks = true;
@@ -257,6 +265,16 @@ public class FDUnits {
                         colorFrom = FDPal.infectedColor;
                         colorTo = Color.valueOf("FF000000");
                     }};
+                    shootEffect = new ParticleEffect(){{
+                        length = 20;
+                        cone = 30;
+                        lifetime = 20;
+                        particles = 4;
+                        region = "fd-blur-particle";
+                        sizeFrom = sizeTo = 2.5f;
+                        colorFrom = FDPal.infectedColor;
+                        colorTo = Color.valueOf("FF000000");
+                    }};
                     smokeEffect = Fx.none;
                 }};
             }});
@@ -294,7 +312,6 @@ public class FDUnits {
                 top = false;
                 rotationLimit = 15;
                 rotateSpeed = 0.75f;
-                shoot.firstShotDelay = 40f;
                 bullet = new BasicBulletType(2.75f, 70){{
                     sprite = "circle";
                     shrinkY = shrinkX = 0;
@@ -305,6 +322,37 @@ public class FDUnits {
                     homingPower = 0.03f;
                     collideTerrain = true;
                     lifetime = 65;
+                    shootEffect = new MultiEffect(new ParticleEffect(){{
+                        length = 38;
+                        cone = 35;
+                        lifetime = 20;
+                        particles = 5;
+                        region = "fd-blur-particle";
+                        sizeFrom = sizeTo = 4f;
+                        colorFrom = FDPal.infectedColor;
+                        colorTo = Color.valueOf("FF000000");
+                    }},
+                    new ParticleEffect(){{
+                        length = 0;
+                        lifetime = 12;
+                        region = "fd-blur-circle";
+                        particles = 1;
+                        sizeFrom = 0;
+                        sizeTo = 20;
+                        colorFrom = FDPal.infectedColor;
+                        colorTo = Color.valueOf("FF000000");
+                    }}
+                    );
+                    despawnEffect = hitEffect = new ParticleEffect(){{
+                        length = 45;
+                        cone = 40;
+                        lifetime = 20;
+                        particles = 8;
+                        region = "fd-blur-particle";
+                        sizeFrom = sizeTo = 5f;
+                        colorFrom = FDPal.infectedColor;
+                        colorTo = Color.valueOf("FF000000");
+                    }};
                     smokeEffect = Fx.none;
                 }};
             }});
@@ -317,7 +365,7 @@ public class FDUnits {
             rotateSpeed = 1.4f;
             targetAir = false;
             faceTarget = false;
-            health = 1200;
+            health = 1500;
             constructor = LegsUnit::create;
 
             stepSound = Sounds.walkerStep;
@@ -364,7 +412,7 @@ public class FDUnits {
                     despawnEffect = hitEffect = new ParticleEffect(){{
                         length = 36;
                         cone = 25;
-                        lifetime = 32;
+                        lifetime = 24;
                         particles = 4;
                         region = "fd-blur-particle";
                         sizeFrom = sizeTo = 3.25f;

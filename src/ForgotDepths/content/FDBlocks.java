@@ -1,8 +1,7 @@
 package ForgotDepths.content;
 
 import ForgotDepths.classes.blocks.defence.PowerAmmoTurret;
-import ForgotDepths.classes.blocks.environment.BitmaskedFloor;
-import ForgotDepths.classes.blocks.environment.ShineOre;
+import ForgotDepths.classes.blocks.environment.*;
 import ForgotDepths.classes.blocks.production.WretchingDrill;
 import ForgotDepths.classes.blocks.storage.ScrapCore;
 import ForgotDepths.classes.campain.DisabledUnit;
@@ -13,12 +12,8 @@ import mindustry.content.Blocks;
 import mindustry.content.Fx;
 import mindustry.content.Items;
 import mindustry.content.StatusEffects;
-import mindustry.entities.bullet.BasicBulletType;
-import mindustry.entities.bullet.BulletType;
-import mindustry.entities.bullet.LightningBulletType;
-import mindustry.entities.effect.MultiEffect;
-import mindustry.entities.effect.ParticleEffect;
-import mindustry.entities.effect.WaveEffect;
+import mindustry.entities.bullet.*;
+import mindustry.entities.effect.*;
 import mindustry.entities.part.RegionPart;
 import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
@@ -26,10 +21,7 @@ import mindustry.graphics.Pal;
 import mindustry.type.Category;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.Wall;
-import mindustry.world.blocks.distribution.ArmoredConveyor;
-import mindustry.world.blocks.distribution.BufferedItemBridge;
-import mindustry.world.blocks.distribution.Conveyor;
-import mindustry.world.blocks.distribution.Router;
+import mindustry.world.blocks.distribution.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.production.GenericCrafter;
 import mindustry.world.draw.*;
@@ -373,6 +365,7 @@ public class FDBlocks {
         largeTrueScrapWall = new Wall("large-true-scrap-wall"){{
             requirements(Category.defense, with(scrapPlate, 24));
             health = 1200;
+            armor = -20;
             buildCostMultiplier = 2.25f;
             size = 2;
             flashHit = true;
@@ -392,6 +385,16 @@ public class FDBlocks {
                 homingPower = 0.01f;
                 collideTerrain = true;
                 lifetime = 110 / 4f;
+                despawnEffect = hitEffect = new ParticleEffect(){{
+                    length = 20;
+                    cone = 25;
+                    lifetime = 15;
+                    particles = 3;
+                    region = "fd-blur-particle";
+                    sizeFrom = sizeTo = 3f;
+                    colorFrom = FDPal.playerColor;
+                    colorTo = Color.valueOf("0000ff00");
+                }};
             }};
             outlineColor = Color.valueOf("171719");
             researchCostMultiplier = 1/4f;
@@ -401,7 +404,7 @@ public class FDBlocks {
             range = 110f;
             shootEffect = new MultiEffect(new ParticleEffect(){{
                 length = 0;
-                lifetime = 12;
+                lifetime = 20;
                 region = "fd-blur-circle";
                 particles = 1;
                 sizeFrom = 0;
@@ -441,6 +444,16 @@ public class FDBlocks {
                 homingPower = 0.025f;
                 collideTerrain = true;
                 lifetime = 240 / 9f;
+                despawnEffect = hitEffect = new ParticleEffect(){{
+                    length = 30;
+                    cone = 30;
+                    lifetime = 18;
+                    particles = 5;
+                    region = "fd-blur-particle";
+                    sizeFrom = sizeTo = 4f;
+                    colorFrom = FDPal.playerColor;
+                    colorTo = Color.valueOf("0000ff00");
+                }};
             }};
             outlineColor = Color.valueOf("171719");
             researchCostMultiplier = 1/4f;
