@@ -84,7 +84,7 @@ public class AmmoTurret extends Turret {
         }
     }
     public class AmmoTurretBuild extends TurretBuild {
-        float curAmmo = maxAmmo;
+        float curAmmo = 0;
         boolean active = true;
         float timer;
         public float amount(){
