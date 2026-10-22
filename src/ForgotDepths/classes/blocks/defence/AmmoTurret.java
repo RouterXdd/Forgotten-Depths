@@ -109,6 +109,11 @@ public class AmmoTurret extends Turret {
                     FDFX.reload.at(tile.drawx(), tile.drawy(), size);
                 }
             }
+            indexer.eachBlock(this, noBuildRange - 0.1f, other -> other.block instanceof AmmoTurret, other -> {
+                if (other instanceof AmmoTurret.AmmoTurretBuild f && other != this) {
+                    damage(maxHealth/220f);
+                }
+            });
             super.updateTile();
         }
         @Override
