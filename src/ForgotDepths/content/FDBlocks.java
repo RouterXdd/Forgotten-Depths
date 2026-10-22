@@ -365,7 +365,7 @@ public class FDBlocks {
         largeTrueScrapWall = new Wall("large-true-scrap-wall"){{
             requirements(Category.defense, with(scrapPlate, 24));
             health = 1200;
-            armor = -20;
+            armor = -5;
             buildCostMultiplier = 2.25f;
             size = 2;
             flashHit = true;
