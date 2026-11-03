@@ -222,7 +222,7 @@ public class FDUnits {
 
             weapons.add(new Weapon(modName + "-springling-weapon"){{
                 targetUnderBlocks = true;
-                reload = 65f;
+                reload = 45f;
                 shootCone = 40f;
                 ejectEffect = Fx.none;
                 shootSound = Sounds.shootDisperse;
@@ -234,7 +234,7 @@ public class FDUnits {
                 mirror = false;
                 rotate = true;
                 shoot.firstShotDelay = 25f;
-                bullet = new BasicBulletType(5, 25){{
+                bullet = new BasicBulletType(5, 30){{
                     sprite = "large-bomb";
                     shrinkY = shrinkX = 0;
                     spin = 0.4f;
@@ -365,7 +365,7 @@ public class FDUnits {
             rotateSpeed = 1.4f;
             targetAir = false;
             faceTarget = false;
-            health = 1500;
+            health = 1750;
             constructor = LegsUnit::create;
 
             stepSound = Sounds.walkerStep;
@@ -389,7 +389,7 @@ public class FDUnits {
                 rotate = true;
                 mirror = false;
                 shootY = 73f / 4;
-                reload = 32f;
+                reload = 30f;
                 ejectEffect = Fx.none;
                 recoil = 2f;
                 rotateSpeed = 0.95f;
@@ -398,7 +398,7 @@ public class FDUnits {
                 shoot = new ShootAlternate(2.5f);
                 shoot.shots = 2;
                 shootSound = Sounds.shootAtrax;
-                bullet = new BasicBulletType(2.75f, 20){{
+                bullet = new BasicBulletType(2.75f, 25){{
                     sprite = "circle";
                     shrinkY = shrinkX = 0;
                     backColor = frontColor = trailColor = FDPal.infectedColor;

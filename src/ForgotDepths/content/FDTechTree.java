@@ -21,6 +21,16 @@ public class FDTechTree {
                 nodeProduce(scrapPlate, () -> {
 
                 });
+                nodeProduce(tarnishedLead, () -> {
+                    nodeProduce(powerCrystal, () -> {
+                        nodeProduce(overdriveCell, () -> {
+
+                        });
+                    });
+                });
+                nodeProduce(purePlatinum, () -> {
+
+                });
             });
             node(scrapShifter, Seq.with(new OnSector(resurrection)), () -> {
                 node(scrapRouter, () -> {

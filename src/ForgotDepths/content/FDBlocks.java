@@ -6,6 +6,7 @@ import ForgotDepths.classes.blocks.production.WretchingDrill;
 import ForgotDepths.classes.blocks.storage.ScrapCore;
 import ForgotDepths.classes.campain.DisabledUnit;
 import ForgotDepths.graphics.FDPal;
+import arc.Core;
 import arc.graphics.Color;
 import arc.math.Interp;
 import mindustry.content.Blocks;
@@ -19,6 +20,7 @@ import mindustry.gen.Sounds;
 import mindustry.graphics.Layer;
 import mindustry.graphics.Pal;
 import mindustry.type.Category;
+import mindustry.type.Item;
 import mindustry.world.*;
 import mindustry.world.blocks.defense.Wall;
 import mindustry.world.blocks.distribution.*;
@@ -39,6 +41,8 @@ public class FDBlocks {
             pit,
             //Scrapyard
             oldScrapFloor, oldScrapWall, oldScrapBridge, oldScrapOre, scrapPorp,
+            //Quarry
+            shaftStone, shaftStoneWall, tarnishedLeadOre,
             //Hazards
             scraplash, disabledDreadnought,
         //crafting
@@ -51,7 +55,7 @@ public class FDBlocks {
         scrapCore,
         //defence
         trueScrapWall, largeTrueScrapWall,
-        turret, ranger
+        turret, ranger, amp
             ;
     public static void load() {
         //env
@@ -79,18 +83,51 @@ public class FDBlocks {
         }};
         oldScrapOre = new ShineOre(oldScrap){{
             effectChance = 0.0008f;
-            effect = new WaveEffect(){{
+            effect = new ParticleEffect(){{
+                length = 0;
+                lifetime = 22;
+                region = "fd-blur-circle";
+                particles = 1;
                 sizeFrom = 0;
                 sizeTo = 5;
                 colorTo = Color.valueOf("ffffff00");
-                lifetime = 22;
-                lightScl = 1;
             }};
         }};
         scrapPorp = new Prop("scrap-prop"){{
             variants = 2;
             oldScrapFloor.asFloor().decoration = this;
         }};
+
+        shaftStone = new Floor("shaft-stone", 3);
+        shaftStoneWall = new StaticWall("shaft-stone-wall");
+        tarnishedLeadOre = new ShineOre(tarnishedLead){{
+            effectChance = 0.0008f;
+            effect = new MultiEffect(new ParticleEffect(){{
+                length = 0;
+                lifetime = 25;
+                region = "fd-blur-circle";
+                particles = 1;
+                sizeFrom = 0;
+                sizeTo = 5;
+                colorFrom = Color.valueOf("3f3f93");
+                colorTo = Color.valueOf("3f3f9300");
+            }}, new ParticleEffect(){{
+                length = 8;
+                cone = 360;
+                lifetime = 25;
+                particles = 3;
+                region = "fd-blur-particle";
+                sizeFrom = sizeTo = 2f;
+                colorFrom = Color.valueOf("3f3f93");
+                colorTo = Color.valueOf("3f3f9300");
+            }});
+        }
+            public void setup(Item ore){
+                this.localizedName = ore.localizedName + (wallOre ? " " + Core.bundle.get("wallore") : "");
+                this.itemDrop = ore;
+                this.mapColor.set(Color.valueOf("070a3e"));
+            }
+        };
 
         //hazard
         scraplash = new PowerAmmoTurret("scraplash"){{
@@ -358,13 +395,13 @@ public class FDBlocks {
         //defence
         trueScrapWall = new Wall("true-scrap-wall"){{
             requirements(Category.defense, with(scrapPlate, 6));
-            health = 300;
+            health = 230;
             buildCostMultiplier = 2.25f;
             flashHit = true;
         }};
         largeTrueScrapWall = new Wall("large-true-scrap-wall"){{
             requirements(Category.defense, with(scrapPlate, 24));
-            health = 1200;
+            health = 920;
             armor = -5;
             buildCostMultiplier = 2.25f;
             size = 2;
@@ -511,6 +548,80 @@ public class FDBlocks {
                 }});
             }};
 
+        }};
+        amp = new PowerAmmoTurret("amp"){{
+            requirements(Category.turret, with(tarnishedLead, 55, powerCrystal, 15));
+            shootType = new LightningBulletType(){{
+                damage = 14;
+                lightningLength = (int) (60 / 4f);
+                collidesAir = false;
+                ammoMultiplier = 1f;
+                pierceCap = 5;
+                lightningColor = FDPal.shockColor;
+
+                lightningType = new BulletType(0.0001f, 0f){{
+                    lifetime = Fx.lightning.lifetime;
+                    status = StatusEffects.shocked;
+                    hittable = false;
+                    lightColor = Color.white;
+                    collidesAir = false;
+                    shieldDamageMultiplier = 0.2f;
+                    despawnEffect = Fx.none;
+                    hitEffect = new ParticleEffect(){{
+                        length = 12;
+                        cone = 360;
+                        lifetime = 15;
+                        particles = 5;
+                        region = "fd-blur-cube";
+                        sizeFrom = sizeTo = 2.5f;
+                        spin = 2f;
+                        colorFrom = FDPal.shockColor;
+                        colorTo = Color.valueOf("00fff500");
+                    }};
+                }};
+
+            }};
+
+            outlineColor = Color.valueOf("03031c");
+            researchCostMultiplier = 1/4f;
+            reload = 28f;
+            shootCone = 35f;
+            rotateSpeed = 7f;
+            range = 85f;
+            shootEffect = new MultiEffect(new ParticleEffect(){{
+                length = 16;
+                cone = 40;
+                lifetime = 24;
+                particles = 2;
+                region = "fd-blur-cube";
+                sizeFrom = sizeTo = 2.5f;
+                spin = 2f;
+                colorFrom = FDPal.shockColor;
+                colorTo = Color.valueOf("00fff500");
+            }},new ParticleEffect(){{
+                length = 16;
+                cone = 40;
+                lifetime = 24;
+                particles = 3;
+                region = "fd-blur-cube";
+                sizeFrom = sizeTo = 2.5f;
+                spin = 2f;
+                colorFrom = FDPal.shockColorAlt;
+                colorTo = Color.valueOf("00c4cb00");
+            }});
+            drawer = new DrawTurret("tarnished-");
+            smokeEffect = Fx.none;
+            shootY = 12;
+            heatColor = Color.red;
+            recoil = 1f;
+            size = 2;
+            health = 340;
+            shootSound = Sounds.shootArc;
+            connectedPower = false;
+            squareSprite = false;
+            maxAmmo = 15;
+            reloadTime = 12 * 60f;
+            researchCost = with(tarnishedLead, 400, powerCrystal, 180);
         }};
     }
 }

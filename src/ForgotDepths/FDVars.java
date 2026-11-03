@@ -2,5 +2,5 @@ package ForgotDepths;
 
 public class FDVars {
 
-    public static boolean demo = true;
+    public static boolean demo = false;
 }
