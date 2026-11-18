@@ -1,9 +1,11 @@
 package ForgotDepths.content;
 
+import ForgotDepths.classes.blocks.defence.ChargeWall;
 import ForgotDepths.classes.blocks.defence.PowerAmmoTurret;
 import ForgotDepths.classes.blocks.environment.*;
 import ForgotDepths.classes.blocks.production.WretchingDrill;
 import ForgotDepths.classes.blocks.storage.ScrapCore;
+import ForgotDepths.classes.blocks.units.MechPad;
 import ForgotDepths.classes.campain.DisabledUnit;
 import ForgotDepths.graphics.FDPal;
 import arc.Core;
@@ -42,7 +44,7 @@ public class FDBlocks {
             //Scrapyard
             oldScrapFloor, oldScrapWall, oldScrapBridge, oldScrapOre, scrapPorp,
             //Quarry
-            shaftStone, shaftStoneWall, tarnishedLeadOre,
+            shaftStone, shaftStoneWall, tarnishedLeadOre, surgeGrowthFloor, surgeGrowth, surgeCluster,
             //Hazards
             scraplash, disabledDreadnought,
         //crafting
@@ -54,8 +56,10 @@ public class FDBlocks {
         //storage
         scrapCore,
         //defence
-        trueScrapWall, largeTrueScrapWall,
-        turret, ranger, amp
+        trueScrapWall, largeTrueScrapWall, tarnishedWall, largeTarnishedWall,
+        turret, ranger, amp,
+        //unit
+        tarnishedPad, dronePrinter
             ;
     public static void load() {
         //env
@@ -128,6 +132,16 @@ public class FDBlocks {
                 this.mapColor.set(Color.valueOf("070a3e"));
             }
         };
+        surgeGrowthFloor = new Floor("surge-growth-floor", 3);
+        surgeGrowth = new StaticWall("surge-growth");
+        surgeCluster = new TallBlock("surge-cluster"){{
+            variants = 2;
+            clipSize = 128f;
+            lightColor = FDPal.shockColor;
+            lightRadius = 12f;
+            emitLight = true;
+            itemDrop = powerCrystal;
+        }};
 
         //hazard
         scraplash = new PowerAmmoTurret("scraplash"){{
@@ -407,6 +421,26 @@ public class FDBlocks {
             size = 2;
             flashHit = true;
         }};
+        tarnishedWall = new ChargeWall("tarnished-wall"){{
+            requirements(Category.defense, with(scrapPlate, 3, tarnishedLead, 5, powerCrystal, 4));
+            health = 275;
+            buildCostMultiplier = 2.25f;
+            flashHit = true;
+        }};
+        largeTarnishedWall = new ChargeWall("tarnished-wall-large"){{
+            requirements(Category.defense, with(scrapPlate, 12, tarnishedLead, 20, powerCrystal, 16));
+            health = 275 * 4;
+            armor = -5;
+            buildCostMultiplier = 2.25f;
+            size = 2;
+            flashHit = true;
+            glowAmount = 3;
+            chargeReq = 160;
+            chargeShift = 1.75f;
+            lightningCDamage = 20;
+            lightningCAmount = 8;
+            lightningCLength = 8;
+        }};
 
         //defence turrets
         turret = new PowerAmmoTurret("turret"){{
@@ -552,7 +586,7 @@ public class FDBlocks {
         amp = new PowerAmmoTurret("amp"){{
             requirements(Category.turret, with(tarnishedLead, 55, powerCrystal, 15));
             shootType = new LightningBulletType(){{
-                damage = 14;
+                damage = 12;
                 lightningLength = (int) (60 / 4f);
                 collidesAir = false;
                 ammoMultiplier = 1f;
@@ -622,6 +656,10 @@ public class FDBlocks {
             maxAmmo = 15;
             reloadTime = 12 * 60f;
             researchCost = with(tarnishedLead, 400, powerCrystal, 180);
+        }};
+        tarnishedPad = new MechPad("tarnished-pad"){{
+            requirements(Category.units, with(tarnishedLead, 250, powerCrystal, 65, overdriveCell, 20));
+            size = 3;
         }};
     }
 }
